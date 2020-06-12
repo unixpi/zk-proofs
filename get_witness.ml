@@ -58,6 +58,16 @@ let random_int = fun max -> Random.int max;;
 
 let add_random_int = fun x max -> x + Random.int max;;
 
+let rec max_int = fun l mx ->
+  match l with
+  | [] -> mx
+  | h :: t -> if h > mx then
+                max_int t h
+              else
+                max_int t mx;;
+                
+(* The first piece of code we'll need, something that takes a problem (i.e. l) and a satisfying assignment (i.e. m) and constructs a witness (i.e. p) that will attest to the satisfiability of the problem instance *)
+
 (*  Given an instance of a partition problem via a list of numbers (the problem)
  and a list of (-1, 1), we say that the assignment satisfies the problem
  if their dot product is 0. *)
@@ -66,9 +76,14 @@ let get_witness = fun problem assignment ->
   if equal_len problem assignment &&
        check_m assignment &&
          check_dot_product_is_zero problem assignment then
-    true
+    let rand_int = random_int (max_int problem 0) in
+    if coin_flip() then
+      let m = flip_signs assignment
+            in map (fun x -> x + rand_int)(0 :: (partial_sum_dot_product problem m 0))
+    else
+      map (fun x -> x + rand_int)(0 :: (partial_sum_dot_product problem assignment 0))
   else
-    false;;
+    [];;
         
   
   
