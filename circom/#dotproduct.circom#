@@ -9,19 +9,6 @@ However, these operators do not work with signals.
 One need sot add some comparator circuits if one wants to limit the underflow/overflow.
 */
 
-/*
-template IsEqual() {
-    signal input in[2];
-    signal output out;
-
-    component isz = IsZero();
-
-    in[1] - in[0] ==> isz.in;
-
-    isz.out ==> out;
-}
-*/
-
 template Multiplier() {
     signal private input a;
     signal private input b;
@@ -32,6 +19,7 @@ template Multiplier() {
 template DotProduct(n) {
 	 signal input l[n];
 	 signal private input m[n];
+
 	 component intermediates[n];
 	 signal output out;
 	 var sum = 0
@@ -45,5 +33,6 @@ template DotProduct(n) {
 	 out <-- sum;
 	 out === 0;
 }
+
 
 component main = DotProduct(4);
