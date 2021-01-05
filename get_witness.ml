@@ -13,7 +13,7 @@ let equal_len = fun l1 l2 -> len l1 == len l2;;
 let rec check_list = fun l f ->
   match l with
   | [] -> true
-  | h :: t -> if f h then test t f else false;;
+  | h :: t -> if f h then check_list t f else false;;
 
 let one_or_minus_one = fun e -> e == 1 || e == -1;;
 
